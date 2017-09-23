@@ -1,0 +1,6 @@
+<!--[if IE 6]>
+<script src="png.js"></script>
+<script>
+DD_belatedPNG.fix('.pop_bg_img');
+</script>
+<![endif]-->
