@@ -21,10 +21,10 @@ var router = {
         else if (arr.length > 0) { controller = arr[0]; }
     },
     redirectAction: function (req, res) {
-
+        var rthis=this;
         //能否找到Action
         var findAction = false;
-        var actionPath = path.resolve(__dirname, "..", area, "controller", controller + "controller") + ".js";
+        var actionPath = path.resolve(__dirname, "..", rthis.area, "controller", rthis.controller + "controller") + ".js";
         if (fs.existsSync(path.join(actionPath))) {
             var controllerFile = require(actionPath);
             if (controllerFile.hasOwnProperty(action)) {

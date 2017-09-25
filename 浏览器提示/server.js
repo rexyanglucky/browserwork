@@ -34,7 +34,7 @@ http.createServer(function (req, res) {
     if (req.url != "/favicon.ico") {
         var path = url.parse(req.url).path;
         if (path == "/") {
-            path = "index.html";
+            path ="home/index";
         }
         var fpath = p.join(__dirname, path);
         fs.exists(fpath, function (r) {
@@ -54,19 +54,6 @@ http.createServer(function (req, res) {
             else {
                 router.resolveUrl(path);
                 router.redirectAction(req,res);
-                // switch (path) {
-                //     case "/LearnCenter/SendCoins": {
-                //         sleep(1000);
-                //         res.writeHead(200, { 'Content-Type': 'text/plain;charset:utf-8' });
-                //         res.end("诗和远方");
-                //     }
-                //         break;
-                //     default:
-                //         res.writeHead(404, { 'Content-Type': 'text/plain;charset:utf-8' });
-                //         res.end("页面不存在");
-                //         break;
-                // }
-
             }
 
         });
