@@ -5,15 +5,35 @@
         var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera; //判断是否IE浏览器
         var isFF = userAgent.indexOf("Firefox") > -1; //判断是否Firefox浏览器
         var isSafari = userAgent.indexOf("Safari") > -1; //判断是否Safari浏览器
-        var isChrome = userAgent.toLowerCase().indexOf("chrome") > -1;
+        var isChrome = userAgent.toLowerCase().indexOf("chrome") > -1;//判断是否谷歌内核浏览器
+        var isQQ=userAgent.toLowerCase().indexOf("qqbrowser")>-1;//判断是否QQ浏览器
+        var isSouGo=userAgent.toLowerCase().indexOf("se")>-1 &&userAgent.toLowerCase().indexOf("metasr")>-1 ;//判断是否搜狗浏览器
+        var is360=userAgent.toLowerCase().indexOf("360se")>-1||userAgent.toLowerCase().indexOf("360ee")>-1||window.navigator.mimeTypes[40];//判断是否360浏览器
+        var isAaoyou=userAgent.toLowerCase().indexOf("maxthon")>-1;//判断是否遨游浏览器
         var browserVersion = '';
         var browserType = 'IE';
+        //套壳浏览器类型
+        var browserGc="";
         if (isIE) {
             var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
             reIE.test(userAgent);
             var fIEVersion = parseFloat(RegExp["$1"]);
             browserVersion = fIEVersion;
             browserType = 'IE';
+            //套壳浏览器 类型
+            if(isQQ)
+            {
+                browserGc="QQ";
+            }
+            else if(isSouGo){
+                browserGc="搜狗";
+            }
+            else if(is360){
+                browserGc="360";
+            }
+            else if(isAaoyou){
+                browserGc="遨游";
+            }
         }//isIE end
         if (isFF) {
             browserType = "FF";
@@ -26,8 +46,22 @@
         if (isChrome) {
             browserType = "Chrome";
             browserVersion = "Chrome";
+             //套壳浏览器 类型
+             if(isQQ)
+             {
+                 browserGc="QQ";
+             }
+             else if(isSouGo){
+                 browserGc="搜狗";
+             }
+             else if(is360){
+                 browserGc="360";
+             }
+             else if(isAaoyou){
+                 browserGc="遨游";
+             }
         }
-        return { browserType: browserType, browserVersion: browserVersion };
+        return { browserType: browserType, browserVersion: browserVersion,browserGc:browserGc };
     }
     var binfo = myBrowser();
     if (binfo.browserType == "FF") {
@@ -37,24 +71,6 @@
     if (binfo.browserType == "Safari") {
     }
     if (binfo == "Chrome") {
-    }
-    if (binfo.browserType == "IE") {
-        var b = binfo.browserVersion;
-        if (b < 7) {
-            // var sobj = document.createElement("script");
-            // sobj.id = "pngscript";
-            // sobj.src = "png.js";
-            // sobj.type = "text/javascript";
-            // if (document.getElementsByTagName) {
-            //     document.getElementsByTagName("head")[0].appendChild(sobj);
-            // }
-            // else if (document.all) {
-            //     document.all["head"][0].appendChild(sobj);
-            // }
-            // sobj.onload = function () {
-            //     DD_belatedPNG.fix('.pop_bg_img');
-            // }
-        }
     }
 
     function removePop() {
@@ -67,7 +83,9 @@
         createPop();
         document.getElementById("btn_pop_close").onclick = removePop;
         document.getElementById("btn_pop_close1").onclick = removePop;
-
+        if(binfo.browserGc){
+            document.getElementById("low_msg").innerHTML="您的浏览器处于兼容模式";
+        }
         if (binfo.browserType == "IE" && binfo.browserVersion < 7) {
                 var layer = document.getElementById("pop_layer");
                 layer.style.position = "absolute";
@@ -93,7 +111,7 @@
         html += '</div>';
         html += '<div class="pop_main">';
         html += '<div class="browser_low">';
-        html += '<p>您的浏览器版本过低</p>';
+        html += '<p id="low_msg">您的浏览器版本过低</p>';
         html += '<p>可能导致网站无法正常访问！</p>';
         html += '</div>';
         html += '<div class="browser_suggest">';
